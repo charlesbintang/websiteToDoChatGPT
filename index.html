@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 60%;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f5f5f5;
+            margin-bottom: 5px;
+        }
+
+        li span {
+            flex-grow: 1;
+        }
+
+        li button {
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        li button.editButton {
+            background-color: #66cdaa;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        li button.editButton:hover {
+            background-color: #3cb371;
+        }
+
+        li button:hover {
+            background-color: #ff4838;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>To-Do List</h1>
+
+    <div>
+        <input type="text" id="taskInput" placeholder="Enter task...">
+        <button id="addButton">Add</button>
+    </div>
+
+    <ul id="taskList">
+        <!-- To-do tasks will be added here -->
+    </ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const taskInput = document.getElementById("taskInput");
+            const addButton = document.getElementById("addButton");
+            const taskList = document.getElementById("taskList");
+
+            addButton.addEventListener("click", function () {
+                const taskText = taskInput.value.trim();
+                if (taskText !== "") {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `<span>${taskText}</span>
+                                  <button class="deleteButton">Delete</button> <button class="editButton">Edit</button>`;
+                    taskList.appendChild(listItem);
+                    taskInput.value = "";
+                }
+            });
+
+            taskList.addEventListener("click", function (event) {
+                if (event.target.classList.contains("deleteButton")) {
+                    const listItem = event.target.parentElement;
+                    taskList.removeChild(listItem);
+                }
+
+                if (event.target.classList.contains("editButton")) {
+                    const listItem = event.target.parentElement;
+                    const taskText = listItem.querySelector("span").textContent;
+                    const newText = prompt("Edit task:", taskText);
+                    if (newText !== null && newText.trim() !== "") {
+                        listItem.querySelector("span").textContent = newText;
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>
